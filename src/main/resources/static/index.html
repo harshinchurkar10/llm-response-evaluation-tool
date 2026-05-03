@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Response Evaluation Tool</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            resize: none;
+        }
+
+        button {
+            margin-top: 15px;
+            padding: 10px 20px;
+            border: none;
+            background: #007bff;
+            color: white;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        .response-box {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            background: #f9f9f9;
+            border-left: 4px solid #007bff;
+        }
+
+        .evaluation {
+            margin-top: 20px;
+        }
+
+        select {
+            margin: 5px;
+            padding: 5px;
+        }
+
+        .label {
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>🤖 AI Response Evaluation Tool</h1>
+
+    <textarea id="prompt" rows="4" placeholder="Enter your prompt..."></textarea>
+
+    <button onclick="evaluate()">Generate Responses</button>
+
+    <div class="response-box">
+        <h3>Response A</h3>
+        <p id="responseA">--</p>
+    </div>
+
+    <div class="response-box">
+        <h3>Response B</h3>
+        <p id="responseB">--</p>
+    </div>
+
+    <div class="evaluation">
+        <h3>📊 Evaluation</h3>
+
+        <span class="label">Accuracy:</span>
+        <select><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select>
+
+        <span class="label">Relevance:</span>
+        <select><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select>
+
+        <span class="label">Clarity:</span>
+        <select><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select>
+    </div>
+</div>
+
+<script>
+function evaluate() {
+    const prompt = document.getElementById("prompt").value;
+
+    fetch("/api/evaluate", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ prompt: prompt })
+    })
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById("responseA").innerText = data.responseA;
+        document.getElementById("responseB").innerText = data.responseB;
+    });
+}
+</script>
+
+</body>
+</html>
